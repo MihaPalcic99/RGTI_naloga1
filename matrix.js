@@ -18,24 +18,24 @@ class Matrix {
             [sx,0,0,0],
             [0,sy,0,0],
             [0,0,sz,0],
-            [0,0,0,0]
+            [0,0,0,1]
         ]
     }
 
     static rotateX(rad){
         return [
             [1,0,0,0],
-            [0,Math.cos(rad),Math.sin(rad),0],
-            [0,-Math.sin(rad),Math.cos(rad),0],
+            [0,Math.cos(rad),-Math.sin(rad),0],
+            [0,Math.sin(rad),Math.cos(rad),0],
             [0,0,0,1]
         ]
     }
 
     static rotateY(rad){
         return [
-            [Math.cos(rad),0,-Math.sin(rad),0],
+            [Math.cos(rad),0,Math.sin(rad),0],
             [0,1,0,0],
-            [Math.sin(rad),0,Math.cos(rad),0],
+            [-Math.sin(rad),0,Math.cos(rad),0],
             [0,0,0,1]
         ] 
     }
@@ -54,7 +54,7 @@ class Matrix {
             [1,0,0,0],
             [0,1,0,0],
             [0,0,1,0],
-            [0,0,d,0]
+            [0,0,d,1]
         ]
     }
     
