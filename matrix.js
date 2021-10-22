@@ -54,7 +54,7 @@ class Matrix {
             [1,0,0,0],
             [0,1,0,0],
             [0,0,1,0],
-            [0,0,d,1]
+            [0,0,d,0]
         ]
     }
     
@@ -105,7 +105,9 @@ class Matrix {
           for (var c = 0; c < bNumCols; ++c) {
             m[r][c] = 0;             
             for (var i = 0; i < aNumCols; ++i) {
-              m[r][c] += a[r][i] * b[i][c];
+                let g = a[r][i] * b[i][c];
+                g = Math.round(g * 100000) / 100000;
+                m[r][c] += g;
             }
           }
         }

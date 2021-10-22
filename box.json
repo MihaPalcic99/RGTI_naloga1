@@ -24,13 +24,13 @@
         4,6,8
     ],
     "camera": {
-        "translation": [5,2,5],
-        "rotation": [0,0.785398,0],
+        "translation": [0,0,-10],
+        "rotation": [0,0,0],
         "perspective": 5
     },
     "model": {
-        "translation": [],
-        "rotation": [],
-        "scale": []
+        "translation": [0,0,0],
+        "rotation": [0,0,0],
+        "scale": [1,1,1]
     }
 }
