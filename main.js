@@ -1,9 +1,11 @@
 window.onload = () => {
-    console.log("hello");
+
     const canvas = document.querySelector("#platno");
     const ctx = canvas.getContext("2d");
     const input = document.querySelector("#vnos"); 
+
     document.addEventListener("keyup", keypress);
+
     let movement = {
         "Mx" : 0,
         "My" : 0,
@@ -13,16 +15,18 @@ window.onload = () => {
         "Rz": 0
 
     }
+    
+    doSomething();
+
     input.addEventListener("input",() =>{
+        resetMovement();
         doSomething();
     });
 
-
-
-
-
     function doSomething(){
+
         let object = SceneReader.SceneReader();
+
         if(object != null){
             document.querySelector("#warn").hidden = true;
 
@@ -30,26 +34,23 @@ window.onload = () => {
             
             let matrika = Matrix.toMatrix(object.vertices);
 
-            M = Matrix.multiply(Matrix.rotateX(-object.camera.rotation[0]),M);
-            M = Matrix.multiply(Matrix.rotateY(-object.camera.rotation[1]),M);
-            M = Matrix.multiply(Matrix.rotateZ(-object.camera.rotation[2]),M);
-            M = Matrix.multiply(Matrix.translate(-object.camera.translation[0],-object.camera.translation[1],-object.camera.translation[2]),M);
-            
-            M = Matrix.multiply(Matrix.translate(object.model.translation[0] + movement["Mx"],object.model.translation[1] + movement["My"],object.model.translation[2] + movement["Mz"] ),M);
+            M = Matrix.multiply(Matrix.scale(object.model.scale[0],object.model.scale[1],object.model.scale[2]),M);
             M = Matrix.multiply(Matrix.rotateZ(object.model.rotation[2] + movement["Rz"]),M);
             M = Matrix.multiply(Matrix.rotateY(object.model.rotation[1] + movement["Ry"]),M);
             M = Matrix.multiply(Matrix.rotateX(object.model.rotation[0] + movement["Rx"]),M);
-            M = Matrix.multiply(Matrix.scale(object.model.scale[0],object.model.scale[1],object.model.scale[2]),M);
+            M = Matrix.multiply(Matrix.translate(object.model.translation[0] + movement["Mx"],object.model.translation[1] + movement["My"],object.model.translation[2] + movement["Mz"] ),M);
+            
+            M = Matrix.multiply(Matrix.translate(-object.camera.translation[0],-object.camera.translation[1],-object.camera.translation[2]),M); 
+            M = Matrix.multiply(Matrix.perspective(object.camera.perspective),M);
+            M = Matrix.multiply(Matrix.rotateX(-object.camera.rotation[0]),M);
+            M = Matrix.multiply(Matrix.rotateY(-object.camera.rotation[1]),M);
+            M = Matrix.multiply(Matrix.rotateZ(-object.camera.rotation[2]),M);
 
             matrika = Matrix.multiply(M,matrika);
-            console.log(matrika);
-            matrika = Matrix.multiply(Matrix.perspective(object.camera.perspective),matrika);
-            console.log(matrika);
-            //M = Matrix.multiply(Matrix.perspective(object.camera.perspective),M);
+            
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawAll(object.indices,matrika);
             
-
         }else{
             document.querySelector("#warn").hidden = false;
         }
@@ -77,11 +78,11 @@ window.onload = () => {
     function keypress(e){
         switch (e.code){
             case "ArrowDown":
-                movement["My"] -= 1;
+                movement["My"] += 1;
                 doSomething();
             break;
             case "ArrowUp":
-                movement["My"] += 1;
+                movement["My"] -= 1;
                 doSomething();
             break;
             case "ArrowLeft":
@@ -93,35 +94,38 @@ window.onload = () => {
                 doSomething();
             break;
             case "KeyQ":
-                movement["Rz"] += 0.785398;
+                movement["Rz"] += 1;
                 doSomething();
             break;
             case "KeyE":
-                movement["Rz"] -= 0.785398;
+                movement["Rz"] -= 1;
                 doSomething();
             break;
             case "KeyI":
-                movement["Rx"] -= 0.785398;
+                movement["Rx"] -= 1;
                 doSomething();
             break;
             case "KeyK":
-                movement["Rx"] += 0.785398;
+                movement["Rx"] += 1;
                 doSomething();
             break;
             case "KeyJ":
-                movement["Ry"] += 0.785398;
+                movement["Ry"] -= 1;
                 doSomething();
             break;
             case "KeyL":
-                movement["Ry"] -= 0.785398;
+                movement["Ry"] += 1;
                 doSomething();
             break;
 
         }
     }
 
-
-
+    function resetMovement(){
+        for (const [key, value] of Object.entries(movement)) {
+            movement[key] = 0;
+          }
+    }
 
 }
 

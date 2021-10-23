@@ -1,4 +1,4 @@
-{
+box = [{
     "vertices": [
         2,2,2,
         2,2,-2,
@@ -26,11 +26,11 @@
     "camera": {
         "translation": [0,0,-10],
         "rotation": [0,0,0],
-        "perspective": 5
+        "perspective": 0.001
     },
     "model": {
         "translation": [0,0,0],
         "rotation": [0,0,0],
         "scale": [1,1,1]
     }
-}
+}]
